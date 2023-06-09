@@ -1,0 +1,150 @@
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.flex-cell {
+  flex: 1;
+  padding: 5px;
+}
+
+.flex-cell:first-child {
+  flex: 0 0 100px;
+}
+
+.vertical-dots {
+  display: flex;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Additional styles to mimic a table */
+.flex-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.flex-row:first-child {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+.flex-row:last-child {
+  border-bottom: none;
+}
+
+.flex-cell:last-child {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.list-item {
+  background-color: black;
+}
+#base-container {
+  display: flex;
+  flex-direction: column;
+  background: #f6f6f6;
+  align-items: center;
+}
+
+#container {
+  height: auto;
+  width: 70%;
+}
+
+#list {
+  width: 70%;
+}
+.list-item {
+  display: table;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.vertical-dots {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+}
+
+.vertical-dots .dot {
+  width: 3px;
+  height: 3px;
+  background-color: #d6c0c0;
+  border-radius: 50%;
+  margin: 1px 0;
+}
+
+.check-mark {
+  display: none;
+  color: green;
+  cursor: pointer;
+}
+
+.check-btn {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#container {
+  display: table;
+  /* background-color: #ffffff; */
+}
+
+.table-row {
+  display: table-row;
+  border-spacing: 5px solid #000;
+  border-collapse: collapse;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.fa-recycle {
+  color: #d6c0c0;
+}
+
+.form-input {
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  background-color: #ffffff;
+  width: 70vw;
+  outline: none;
+  padding: 1rem;
+}
+
+.from_Input:active {
+  border: none;
+  outline: none;
+}
+
+.footer-to-do {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  color: #a3a3a3;
+  background-color: #f6f6f6;
+}
