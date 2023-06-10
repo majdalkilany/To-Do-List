@@ -4,6 +4,8 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .flex-row {
@@ -11,7 +13,7 @@
   align-items: center;
   border-bottom: 1px solid #ccc;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .flex-cell {
@@ -25,6 +27,10 @@
 
 .vertical-dots {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
 }
 
 .dot {
@@ -33,12 +39,6 @@
   background-color: black;
   border-radius: 50%;
   margin-right: 5px;
-}
-
-/* Additional styles to mimic a table */
-.flex-container {
-  width: 100%;
-  margin-bottom: 20px;
 }
 
 .flex-row:first-child {
@@ -55,9 +55,6 @@
   justify-content: flex-end;
 }
 
-.list-item {
-  background-color: black;
-}
 #base-container {
   display: flex;
   flex-direction: column;
@@ -68,22 +65,11 @@
 #container {
   height: auto;
   width: 70%;
+  display: table;
 }
 
 #list {
   width: 70%;
-}
-.list-item {
-  display: table;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-.vertical-dots {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 1rem;
 }
 
 .vertical-dots .dot {
@@ -105,11 +91,6 @@
   cursor: pointer;
 }
 
-#container {
-  display: table;
-  /* background-color: #ffffff; */
-}
-
 .table-row {
   display: table-row;
   border-spacing: 5px solid #000;
@@ -128,8 +109,7 @@
   align-items: center;
   border: none;
   border-bottom: 1px solid #ccc;
-  padding: 10px;
-  background-color: #ffffff;
+  background-color: #fff;
   width: 70vw;
   outline: none;
   padding: 1rem;

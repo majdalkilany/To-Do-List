@@ -1,6 +1,6 @@
 import './style.css';
 
-const tasks = [
+const tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [
   {
     description: 'attend the first meeting ',
     completed: false,
@@ -18,35 +18,39 @@ const tasks = [
   },
 ];
 
-const container = document.getElementById('container');
-container.className = 'flex-container';
+const displayListHead = () => {
+  const container = document.getElementById('container');
+  container.className = 'flex-container';
 
-const header = document.createElement('div');
-header.className = 'flex-row';
-container.appendChild(header);
+  const header = document.createElement('div');
+  header.className = 'flex-row';
+  container.appendChild(header);
 
-const form = document.createElement('form');
-form.className = 'form';
-container.appendChild(form);
+  const form = document.createElement('form');
+  form.className = 'form';
+  container.appendChild(form);
 
-const formInput = document.createElement('input');
-formInput.className = 'flex-cell form-input';
-form.appendChild(formInput);
-formInput.placeholder = 'Add to your list';
-// checkCellHeader.textContent = "Today's To Do";
+  const formInput = document.createElement('input');
+  formInput.className = 'flex-cell form-input';
+  form.appendChild(formInput);
+  formInput.placeholder = 'Add to your list';
+  // checkCellHeader.textContent = "Today's To Do";
 
-const checkCellHeader = document.createElement('div');
-checkCellHeader.className = 'flex-cell';
-header.appendChild(checkCellHeader);
-checkCellHeader.textContent = "Today's To Do";
+  const checkCellHeader = document.createElement('div');
+  checkCellHeader.className = 'flex-cell';
+  header.appendChild(checkCellHeader);
+  checkCellHeader.textContent = "Today's To Do";
 
-const recycleCellHeader = document.createElement('div');
-recycleCellHeader.className = 'flex-cell';
-header.appendChild(recycleCellHeader);
+  const recycleCellHeader = document.createElement('div');
+  recycleCellHeader.className = 'flex-cell';
+  header.appendChild(recycleCellHeader);
 
-const recycleIcon = document.createElement('i');
-recycleIcon.className = 'fas fa-recycle';
-recycleCellHeader.appendChild(recycleIcon);
+  const recycleIcon = document.createElement('i');
+  recycleIcon.className = 'fas fa-recycle';
+  recycleCellHeader.appendChild(recycleIcon);
+};
+
+displayListHead();
 
 const displayTask = tasks.forEach((task) => {
   const row = document.createElement('div');
@@ -102,7 +106,15 @@ const displayTask = tasks.forEach((task) => {
   }
 });
 
-const footer = document.createElement('div');
-footer.className = 'flex-row footer-to-do';
-container.appendChild(footer);
-footer.textContent = 'Clear all complected';
+const displayFooter = () => {
+  const footer = document.createElement('div');
+  footer.className = 'flex-row footer-to-do';
+  container.appendChild(footer);
+  footer.textContent = 'Clear all complected';
+};
+
+displayFooter();
+const saveToLocaleStorage = () => {
+  localStorage.setItem('arrayOfTasks', JSON.stringify(arrayOfTasks));
+};
+saveToLocaleStorage();
