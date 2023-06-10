@@ -41,11 +41,6 @@
   margin-right: 5px;
 }
 
-.flex-row:first-child {
-  background-color: #f1f1f1;
-  font-weight: bold;
-}
-
 .flex-row:last-child {
   border-bottom: none;
 }
@@ -126,4 +121,16 @@
   padding: 15px;
   color: #a3a3a3;
   background-color: #f6f6f6;
+}
+
+.hidden {
+  display: none;
+}
+
+textarea {
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 0;
+  background-color: #ffff1a57;
 }
