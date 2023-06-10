@@ -93,7 +93,6 @@
 
 .table-row {
   display: table-row;
-  border-spacing: 5px solid #000;
   border-collapse: collapse;
 }
 
