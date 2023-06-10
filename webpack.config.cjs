@@ -16,19 +16,11 @@ module.exports = {
     rules: [
       {
         test: /\.(css|scss)$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: { presets: ['@babel/preset-env'] },
-        },
       },
     ],
   },
