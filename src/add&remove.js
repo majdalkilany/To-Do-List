@@ -1,7 +1,4 @@
-/* eslint-disable comma-dangle */
 let tasks = [];
-
-// const tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
 
 function Task(description, taskIndex) {
   this.description = description;
@@ -23,7 +20,6 @@ export const createTask = () => {
 const saveToLocaleStorage = () => {
   localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
 };
-// saveToLocaleStorage();
 
 const getFromLocalStorage = () => {
   if (localStorage.getItem('arrayOfTasks')) {
@@ -61,10 +57,3 @@ export const editHandler = (event) => {
     localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
   });
 };
-
-// const removeHandler = (event) => {
-//   tasks = [];
-//   getFromLocalStorage();
-//   localStorage.setItem('arrayOfTasks', JSON.stringify([]));
-//   console.log('tasks array', tasks);
-// };
