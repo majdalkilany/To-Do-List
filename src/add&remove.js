@@ -23,7 +23,7 @@ const saveToLocaleStorage = () => {
 
 const getFromLocalStorage = () => {
   if (localStorage.getItem('arrayOfTasks')) {
-    const newTasks = JSON.parse(localStorage.getItem('arrayOfTasks'));
+    const newTasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
     for (let i = 0; i < newTasks.length; i++) {
       tasks.push(newTasks[i]);
     }
@@ -33,7 +33,6 @@ const getFromLocalStorage = () => {
 export const editHandler = (event) => {
   tasks = [];
   getFromLocalStorage();
-  localStorage.setItem('arrayOfTasks', JSON.stringify([]));
   console.log('tasks array', tasks);
 
   const foundTask = tasks.find(
@@ -55,5 +54,6 @@ export const editHandler = (event) => {
       return true;
     });
     localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
+    tasks = [];
   });
 };
