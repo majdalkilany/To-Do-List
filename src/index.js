@@ -32,6 +32,7 @@ const displayListHead = () => {
   formInput.id = 'input-description';
   form.appendChild(formInput);
   formInput.placeholder = 'Add to your list';
+  formInput.required = true;
   // checkCellHeader.textContent = "Today's To Do";
 
   const checkCellHeader = document.createElement('div');
