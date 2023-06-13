@@ -1,6 +1,7 @@
 import './style.css';
 
 import { createTask, editHandler } from './add&remove.js';
+import { handleComplected, removeCompetedTasks } from './handle-completed.js';
 
 let tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
 console.log('tasks ', tasks);
@@ -33,7 +34,6 @@ const displayListHead = () => {
   form.appendChild(formInput);
   formInput.placeholder = 'Add to your list';
   formInput.required = true;
-  // checkCellHeader.textContent = "Today's To Do";
 
   const checkCellHeader = document.createElement('div');
   checkCellHeader.className = 'flex-cell';
@@ -51,7 +51,6 @@ const displayListHead = () => {
 
 const displayAllTasks = () => {
   tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
-  console.log(tasks);
   const subContainer = document.createElement('div');
   subContainer.id = 'sub-container';
   container.appendChild(subContainer);
@@ -75,18 +74,26 @@ const displayAllTasks = () => {
 
     let checkMarkToggle = false;
 
-    checkBtn.onclick = function (event) {
+    checkBtn.onclick = (event) => {
       event.stopPropagation();
       checkMark.style.display = checkMarkToggle ? 'none' : 'block';
       checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
       checkMarkToggle = !checkMarkToggle;
+      task = handleComplected(event, task);
+      labelCell.classList.add('line-through');
+      saveToLocaleStorage();
     };
 
-    checkMark.onclick = function (event) {
+    checkMark.onclick = (event) => {
       event.stopPropagation();
       checkMark.style.display = checkMarkToggle ? 'none' : 'block';
       checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
       checkMarkToggle = !checkMarkToggle;
+      task = handleComplected(event, task);
+      console.log(task, 'from the checkbox');
+      console.log(tasks, 'from the checkbox');
+      saveToLocaleStorage();
+      labelCell.classList.remove('line-through');
     };
 
     const labelCell = document.createElement('div');
@@ -143,10 +150,27 @@ const displayFooter = () => {
   footer.className = 'flex-row footer-to-do';
   subContainer.appendChild(footer);
   footer.textContent = 'Clear all complected';
+  footer.addEventListener('click', () => {
+    subContainer.remove();
+
+    // tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
+    tasks = removeCompetedTasks(tasks);
+    console.log(tasks);
+    saveToLocaleStorage();
+    displayAllTasks();
+    displayFooter();
+  });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   displayListHead();
   displayAllTasks();
   displayFooter();
+  tasks.forEach((task) => {
+    task.completed = false;
+  });
 });
+
+const saveToLocaleStorage = () => {
+  localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
+};
