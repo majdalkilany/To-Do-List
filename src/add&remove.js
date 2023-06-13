@@ -33,7 +33,6 @@ const getFromLocalStorage = () => {
 export const editHandler = (event) => {
   tasks = [];
   getFromLocalStorage();
-  localStorage.setItem('arrayOfTasks', null);
   console.log('tasks array', tasks);
 
   const foundTask = tasks.find(
