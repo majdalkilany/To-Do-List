@@ -4,7 +4,6 @@ import { createTask, editHandler } from './add&remove.js';
 import { handleComplected, removeCompetedTasks } from './handle-completed.js';
 
 let tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
-console.log('tasks ', tasks);
 
 const displayListHead = () => {
   const container = document.getElementById('container');
@@ -67,6 +66,7 @@ const displayAllTasks = () => {
 
     const checkMark = document.createElement('span');
     checkMark.className = 'check-mark';
+    checkMark.id = 'check-mark';
     checkMark.innerHTML = '&#10004;';
     checkCell.appendChild(checkMark);
 
@@ -74,27 +74,19 @@ const displayAllTasks = () => {
     checkBtn.className = 'check-btn';
     checkCell.appendChild(checkBtn);
 
-    let checkMarkToggle = false;
-
     checkBtn.onclick = (event) => {
       event.stopPropagation();
-      checkMark.style.display = checkMarkToggle ? 'none' : 'block';
-      checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
-      checkMarkToggle = !checkMarkToggle;
-      task = handleComplected(event, task);
+      checkMark.style.display = task.completed ? 'none' : 'block';
+      checkBtn.style.display = task.completed ? 'block' : 'none';
+      handleComplected(event, task.index);
       labelCell.classList.add('line-through');
-      saveToLocaleStorage();
     };
 
     checkMark.onclick = (event) => {
       event.stopPropagation();
-      checkMark.style.display = checkMarkToggle ? 'none' : 'block';
-      checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
-      checkMarkToggle = !checkMarkToggle;
-      task = handleComplected(event, task);
-      console.log(task, 'from the checkbox');
-      console.log(tasks, 'from the checkbox');
-      saveToLocaleStorage();
+      checkBtn.style.display = task.completed ? 'none' : 'block';
+      checkMark.style.display = task.completed ? 'block' : 'none';
+      handleComplected(event, task.index);
       labelCell.classList.remove('line-through');
     };
 
@@ -103,7 +95,11 @@ const displayAllTasks = () => {
     row.appendChild(labelCell);
     labelCell.textContent = task.description;
     labelCell.addEventListener('click', toggleCell);
-
+    if (task.completed) {
+      checkMark.style.display = 'block';
+      checkBtn.style.display = 'none';
+      labelCell.classList.add('line-through');
+    }
     const textAreaCell = document.createElement('textarea');
     textAreaCell.className = 'flex-cell  hidden';
     row.appendChild(textAreaCell);
@@ -143,7 +139,6 @@ const displayAllTasks = () => {
       dotDiv.className = 'dot';
       dotsDiv.appendChild(dotDiv);
     }
-    // dotsCell.addEventListener('click', addEventListeners);
   });
   addEventListeners();
 };
@@ -157,9 +152,8 @@ const displayFooter = () => {
   footer.addEventListener('click', () => {
     subContainer.remove();
 
-    // tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
+    tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
     tasks = removeCompetedTasks(tasks);
-    console.log(tasks);
     saveToLocaleStorage();
     displayAllTasks();
     displayFooter();
