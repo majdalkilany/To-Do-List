@@ -1,5 +1,5 @@
 import './style.css';
-
+import { addEventListeners } from './drag-and-drop.js';
 import { createTask, editHandler } from './add&remove.js';
 import { handleComplected, removeCompetedTasks } from './handle-completed.js';
 
@@ -22,7 +22,6 @@ const displayListHead = () => {
     event.preventDefault();
     const subContainer = document.getElementById('sub-container');
     subContainer.remove();
-    console.log('sub', subContainer);
     tasks = [];
     createTask();
     displayAllTasks();
@@ -51,12 +50,15 @@ const displayListHead = () => {
 
 const displayAllTasks = () => {
   tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
-  const subContainer = document.createElement('div');
+  const subContainer = document.createElement('ul');
   subContainer.id = 'sub-container';
   container.appendChild(subContainer);
   const displayTask = tasks.forEach((task) => {
-    const row = document.createElement('div');
+    const row = document.createElement('li');
     row.className = 'flex-row';
+    row.classList.add('draggable');
+    row.setAttribute('data-index', task.index);
+    row.draggable = true;
     subContainer.appendChild(row);
 
     const checkCell = document.createElement('div');
@@ -141,7 +143,9 @@ const displayAllTasks = () => {
       dotDiv.className = 'dot';
       dotsDiv.appendChild(dotDiv);
     }
+    // dotsCell.addEventListener('click', addEventListeners);
   });
+  addEventListeners();
 };
 const displayFooter = () => {
   const subContainer = document.getElementById('sub-container');

@@ -121,6 +121,7 @@
   padding: 15px;
   color: #a3a3a3;
   background-color: #f6f6f6;
+  cursor: pointer;
 }
 
 .hidden {
@@ -136,4 +137,13 @@ textarea {
 }
 .line-through {
   text-decoration: line-through;
+}
+
+.flex-row.dragging {
+  opacity: 0.5;
+  background-color: #fff;
+}
+
+.over {
+  background-color: #a3a3a3;
 }
