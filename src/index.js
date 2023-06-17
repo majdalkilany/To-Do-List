@@ -1,22 +1,9 @@
 import './style.css';
+import { addEventListeners } from './drag-and-drop.js';
+import { createTask, editHandler } from './add&remove.js';
+import { handleComplected, removeCompetedTasks } from './handle-completed.js';
 
-const tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [
-  {
-    description: 'attend the first meeting ',
-    completed: false,
-    index: 0,
-  },
-  {
-    description: 'start doing the first task ',
-    completed: false,
-    index: 1,
-  },
-  {
-    description: 'submit the task ',
-    completed: false,
-    index: 2,
-  },
-];
+let tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
 
 const displayListHead = () => {
   const container = document.getElementById('container');
@@ -30,11 +17,21 @@ const displayListHead = () => {
   form.className = 'form';
   container.appendChild(form);
 
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const subContainer = document.getElementById('sub-container');
+    subContainer.remove();
+    tasks = [];
+    createTask();
+    displayAllTasks();
+    displayFooter();
+  });
   const formInput = document.createElement('input');
   formInput.className = 'flex-cell form-input';
+  formInput.id = 'input-description';
   form.appendChild(formInput);
   formInput.placeholder = 'Add to your list';
-  // checkCellHeader.textContent = "Today's To Do";
+  formInput.required = true;
 
   const checkCellHeader = document.createElement('div');
   checkCellHeader.className = 'flex-cell';
@@ -50,71 +47,128 @@ const displayListHead = () => {
   recycleCellHeader.appendChild(recycleIcon);
 };
 
-displayListHead();
+const displayAllTasks = () => {
+  tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
+  const subContainer = document.createElement('ul');
+  subContainer.id = 'sub-container';
+  container.appendChild(subContainer);
+  const displayTask = tasks.forEach((task) => {
+    const row = document.createElement('li');
+    row.className = 'flex-row';
+    row.classList.add('draggable');
+    row.setAttribute('data-index', task.index);
+    row.draggable = true;
+    subContainer.appendChild(row);
 
-const displayTask = tasks.forEach((task) => {
-  const row = document.createElement('div');
-  row.className = 'flex-row';
-  container.appendChild(row);
+    const checkCell = document.createElement('div');
+    checkCell.className = 'flex-cell';
+    row.appendChild(checkCell);
 
-  const checkCell = document.createElement('div');
-  checkCell.className = 'flex-cell';
-  row.appendChild(checkCell);
+    const checkMark = document.createElement('span');
+    checkMark.className = 'check-mark';
+    checkMark.id = 'check-mark';
+    checkMark.innerHTML = '&#10004;';
+    checkCell.appendChild(checkMark);
 
-  const checkMark = document.createElement('span');
-  checkMark.className = 'check-mark';
-  checkMark.innerHTML = '&#10004;';
-  checkCell.appendChild(checkMark);
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'check-btn';
+    checkCell.appendChild(checkBtn);
 
-  const checkBtn = document.createElement('button');
-  checkBtn.className = 'check-btn';
-  checkCell.appendChild(checkBtn);
+    checkBtn.onclick = (event) => {
+      event.stopPropagation();
+      checkMark.style.display = task.completed ? 'none' : 'block';
+      checkBtn.style.display = task.completed ? 'block' : 'none';
+      handleComplected(event, task.index);
+      labelCell.classList.add('line-through');
+    };
 
-  let checkMarkToggle = false;
+    checkMark.onclick = (event) => {
+      event.stopPropagation();
+      checkBtn.style.display = task.completed ? 'none' : 'block';
+      checkMark.style.display = task.completed ? 'block' : 'none';
+      handleComplected(event, task.index);
+      labelCell.classList.remove('line-through');
+    };
 
-  checkBtn.onclick = function (event) {
-    event.stopPropagation();
-    checkMark.style.display = checkMarkToggle ? 'none' : 'block';
-    checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
-    checkMarkToggle = !checkMarkToggle;
-  };
+    const labelCell = document.createElement('div');
+    labelCell.className = 'flex-cell';
+    row.appendChild(labelCell);
+    labelCell.textContent = task.description;
+    labelCell.addEventListener('click', toggleCell);
+    if (task.completed) {
+      checkMark.style.display = 'block';
+      checkBtn.style.display = 'none';
+      labelCell.classList.add('line-through');
+    }
+    const textAreaCell = document.createElement('textarea');
+    textAreaCell.className = 'flex-cell  hidden';
+    row.appendChild(textAreaCell);
+    textAreaCell.textContent = task.description;
+    textAreaCell.addEventListener('blur', (event) => {
+      toggleCell();
+    });
+    textAreaCell.addEventListener('change', (event) => {
+      textAreaCell.textContent = event.target.value;
+      labelCell.textContent = event.target.value;
+    });
 
-  checkMark.onclick = function (event) {
-    event.stopPropagation();
-    checkMark.style.display = checkMarkToggle ? 'none' : 'block';
-    checkBtn.style.display = checkMarkToggle ? 'block' : 'none';
-    checkMarkToggle = !checkMarkToggle;
-  };
+    textAreaCell.addEventListener('focus', (event) => {
+      textAreaCell.textContent = event.target.value;
+      labelCell.textContent = event.target.value;
+      editHandler(event);
+    });
+    function toggleCell() {
+      labelCell.classList.toggle('hidden');
+      textAreaCell.classList.toggle('hidden');
 
-  const labelCell = document.createElement('div');
-  labelCell.className = 'flex-cell';
-  row.appendChild(labelCell);
-  labelCell.textContent = task.description;
+      if (!textAreaCell.classList.contains('hidden')) {
+        textAreaCell.focus();
+      }
+    }
 
-  const dotsCell = document.createElement('div');
-  dotsCell.className = 'flex-cell';
-  row.appendChild(dotsCell);
+    const dotsCell = document.createElement('div');
+    dotsCell.className = 'flex-cell';
+    row.appendChild(dotsCell);
 
-  const dotsDiv = document.createElement('div');
-  dotsDiv.className = 'vertical-dots';
-  dotsCell.appendChild(dotsDiv);
+    const dotsDiv = document.createElement('div');
+    dotsDiv.className = 'vertical-dots';
+    dotsCell.appendChild(dotsDiv);
 
-  for (let index = 0; index <= 2; index++) {
-    const dotDiv = document.createElement('div');
-    dotDiv.className = 'dot';
-    dotsDiv.appendChild(dotDiv);
-  }
-});
-
+    for (let index = 0; index <= 2; index++) {
+      const dotDiv = document.createElement('div');
+      dotDiv.className = 'dot';
+      dotsDiv.appendChild(dotDiv);
+    }
+  });
+  addEventListeners();
+};
 const displayFooter = () => {
+  const subContainer = document.getElementById('sub-container');
+
   const footer = document.createElement('div');
   footer.className = 'flex-row footer-to-do';
-  container.appendChild(footer);
+  subContainer.appendChild(footer);
   footer.textContent = 'Clear all complected';
+  footer.addEventListener('click', () => {
+    subContainer.remove();
+
+    tasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
+    tasks = removeCompetedTasks(tasks);
+    saveToLocaleStorage();
+    displayAllTasks();
+    displayFooter();
+  });
 };
 
-displayFooter();
+document.addEventListener('DOMContentLoaded', () => {
+  displayListHead();
+  displayAllTasks();
+  displayFooter();
+  tasks.forEach((task) => {
+    task.completed = false;
+  });
+});
+
 const saveToLocaleStorage = () => {
-  localStorage.setItem('arrayOfTasks', JSON.stringify(arrayOfTasks));
+  localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
 };
-saveToLocaleStorage();
