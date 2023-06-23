@@ -44,7 +44,7 @@ In this project I created a nice to-do-list app to track my daily tasks
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](https://majdalkilany.github.io/To-Do-List/)
+- [Live Demo Link](https://majdalkilany.github.io/To-Do-List/dist/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -66,7 +66,7 @@ Clone this repository to your desired folder:
 
 Run these command:
 
-` https://github.com/SiveMdluli/Awesome-Books`
+`https://majdalkilany.github.io/To-Do-List/dist/`
 
 ### Usage
 

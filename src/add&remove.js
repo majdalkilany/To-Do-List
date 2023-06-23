@@ -22,11 +22,11 @@ export const createTask = () => {
   taskDescription.value = '';
 };
 
-const saveToLocaleStorage = () => {
+export const saveToLocaleStorage = () => {
   localStorage.setItem('arrayOfTasks', JSON.stringify(tasks));
 };
 
-const getFromLocalStorage = () => {
+export const getFromLocalStorage = () => {
   if (localStorage.getItem('arrayOfTasks')) {
     const newTasks = JSON.parse(localStorage.getItem('arrayOfTasks')) || [];
     for (let i = 0; i < newTasks.length; i++) {
